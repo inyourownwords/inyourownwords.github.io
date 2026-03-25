@@ -481,6 +481,14 @@
     .demo-legend-dot {
       width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0;
     }
+    .theme-fidelity-badge {
+      font-size: 11px; font-weight: 600;
+      color: var(--muted); background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2px 8px; white-space: nowrap;
+      flex-shrink: 0;
+    }
     .theme-chevron {
       width: 16px; height: 16px; color: var(--muted);
       transition: transform 0.2s; flex-shrink: 0;
@@ -1685,6 +1693,7 @@
     const item = document.createElement('div');
     item.className = 'theme-item';
     item.id = `theme-${axis}-sort-${i}`;
+    const fidelityScore = theme.r2.toFixed(2);
     item.innerHTML = `
       <div class="theme-header" onclick="this.parentElement.classList.toggle('open')">
         <div class="theme-name-row">
@@ -1697,6 +1706,7 @@
       </div>
       <div class="theme-examples">
         <div class="demo-legend">${legendHtml}</div>
+        <div class="r2-explainer"><strong>Theme interpretation fidelity: ${fidelityScore}</strong> — How well this theme label matches the underlying pattern in the data. A score of ${fidelityScore} means that when an LLM used this label to classify responses, its predictions matched which responses actually highly activate this dimension with ${fidelityScore} F1 score.</div>
         <div class="example-quotes" style="margin-top:12px;">${exampleHtml}</div>
       </div>`;
     return item;
