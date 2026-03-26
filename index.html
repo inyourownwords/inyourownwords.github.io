@@ -894,6 +894,20 @@
       .nav-links { display: none; }
       .stat { flex: 1 1 120px; }
       .data-card { padding: 24px 20px; }
+
+      /* Stack pipeline step text above image */
+      .pipeline-panel-inner { flex-direction: column; }
+      .pipeline-panel-img { flex: none; width: 100%; }
+
+      /* Consent popup: fit within the form */
+      .consent-box { padding: 18px 16px; width: 92%; }
+      .consent-box p { font-size: 12px; margin-bottom: 14px; }
+
+    }
+    @media (max-width: 768px) {
+      /* Stack authors vertically */
+      .authors-grid { flex-direction: column; }
+      .author-card { flex: none; min-width: 0; width: 100%; }
     }
     @media (max-width: 1260px) {
       body { padding-bottom: 60px; }
@@ -969,7 +983,7 @@
     <div class="section-label">Methodology</div>
     <div class="section-title">The Computational Framework</div>
     <p class="section-desc">
-      We computationally identify interpretable themes in participants' free-text responses using sparse autoencoder (SAE) models. Models are trained using the <a href="https://github.com/rmovva/HypotheSAEs">HypotheSAEs</a> library (Movva and Peng et al., 2025). These themes
+      We computationally identify interpretable themes in participants' free-text responses using sparse autoencoders (SAE). We fit the SAEs using the <a href="https://github.com/rmovva/HypotheSAEs" target="_blank">HypotheSAEs</a> library (Movva and Peng et al., 2025). These themes
       are <strong>automatically learned from the data</strong> (that is, we do not pre-specify them). Each response is then
       represented by which themes it expresses, converting unstructured free text into structured
       data that is useable in downstream statistical analysis.
@@ -1032,7 +1046,7 @@
           <p class="pipeline-step-desc">
             A sparse autoencoder (SAE), trained separately on each identity axis, extracts interpretable dimensions from the embeddings. Each dimension captures a recurring pattern in how identity is expressed — such as references to cultural heritage, language, or childhood experiences.
             <br><br>
-            The SAE learns a set of M=32 features, where at most K=4 are active for any given response. This sparsity encourages each feature to capture a distinct aspect of identity. For details, see <a href="https://proceedings.mlr.press/v267/movva25a.html" target="_blank">Movva and Peng et al. (2025)</a>; code is available at <a href="https://hypothesaes.org" target="_blank">hypothesaes.org</a>.
+            The SAE learns a set of M=32 features, where at most K=4 are active for any given response. This sparsity encourages each feature to capture a distinct aspect of identity.
           </p>
         </div>
         <div class="pipeline-panel-img">
@@ -1045,7 +1059,7 @@
     <div class="pipeline-panel">
       <div class="pipeline-panel-inner">
         <div class="pipeline-panel-text">
-          <div class="pipeline-step-title">LLM summarizes each SAE dimension with a theme label</div>
+          <div class="pipeline-step-title">LLM summarizes each SAE dimension with an interpretable theme</div>
           <p class="pipeline-step-desc">
             We prompt an LLM with the free-text responses that score highest on each SAE dimension, asking it to identify a common, interpretable theme. This produces labels like <em>"mentions cultural food as important to identity"</em> or <em>"mentions fluidity or fluctuation in gender identity."</em>
           </p>
@@ -1097,6 +1111,7 @@
         Each row shows one theme. For each theme, colored bars indicate the share of respondents
         who express that theme coming from each identity category — revealing which themes
         cut across groups and which are concentrated in specific categories.
+        Example quotes are provided for the top two themes in each dimension.
       </p>
     </div>
 
@@ -1180,9 +1195,15 @@
         <div class="consent-box">
           <h3>Before you contribute</h3>
           <p>
-            You are welcome to share a free-text response about your race, gender, and/or sexual orientation. Your response may be used for academic research on how people describe their identity in
+            <!-- You are welcome to share a free-text response about your race, gender, and/or sexual orientation. Your response may be used for academic research on how people describe their identity in
             free text. Participation is <strong>voluntary and anonymous</strong>. Responses may appear in published research and be shared with the
-            scientific community in anonymized form.
+            scientific community. -->
+            During this study, we will collect data from you on how you describe your identity. This data will be
+            used to conduct academic research on how people describe their identities. As part of this
+            research, we may make survey responses available to other
+            researchers so they can build on our work, so please do not provide information that you are not
+            comfortable sharing with other researchers. Your personal information will be kept strictly
+            confidential, and all data will be stored securely.
           </p>
           <div class="consent-btns" id="consent-btns">
             <button class="consent-btn-yes" onclick="giveConsent()">I consent</button>
@@ -1712,7 +1733,7 @@
       </div>
       <div class="theme-examples">
         <div class="demo-legend">${legendHtml}</div>
-        <div class="r2-explainer"><strong>Theme interpretation fidelity: ${fidelityScore}</strong> — How well this theme label matches the underlying pattern in the data. A score of ${fidelityScore} means that when an LLM used this label to classify responses, its predictions matched which responses actually highly activate this dimension with ${fidelityScore} F1 score.</div>
+        <div class="r2-explainer"><strong>Theme interpretation fidelity: ${fidelityScore}</strong> — How well this theme matches the underlying pattern in the data. This means that when an LLM used this theme to classify responses, its predictions matched which responses actually highly activate this dimension with ${fidelityScore} F1 score.</div>
         <div class="example-quotes" style="margin-top:12px;">${exampleHtml}</div>
       </div>`;
     return item;
